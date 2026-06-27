@@ -73,7 +73,10 @@ nav .brand:hover{color:var(--champagne)}
 .nav-links a:hover{color:var(--champagne)}
 .menu-btn{display:none}
 @media(max-width:768px){
-  .nav-links{display:none}
+  .nav-links{display:none;position:absolute;top:56px;left:0;right:0;flex-direction:column;gap:0;padding:16px 24px;background:rgba(15,15,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(196,168,130,0.15);z-index:999}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 0;font-size:12px;letter-spacing:0.15em;border-bottom:1px solid rgba(196,168,130,0.1)}
+  .nav-links a:last-child{border-bottom:none}
   .menu-btn{display:block;background:none;border:none;color:var(--gold);font-size:18px;cursor:pointer;padding:4px}
 }
 
@@ -163,7 +166,7 @@ nav .brand:hover{color:var(--champagne)}
 }
 .my-path::before{
   content:'';position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;
-  background:rgba(15,15,15,0.25);
+  background:rgba(15,15,15,0.55);
 }
 .my-path-bg{
   position:absolute;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;
@@ -299,6 +302,50 @@ nav .brand:hover{color:var(--champagne)}
   .carousel-card{flex:0 0 100%;}
 }
 
+/* ===== MASTERCLASS ===== */
+.masterclass{
+  padding:100px 24px;text-align:center;background:var(--ivory);position:relative;
+}
+.masterclass-inner{max-width:700px;margin:0 auto;}
+.masterclass h2{
+  font-family:'Playfair Display',serif;font-weight:400;letter-spacing:0.03em;
+  font-size:clamp(32px,6vw,52px);line-height:1.1;color:var(--graphite);margin-bottom:16px;
+}
+.masterclass p{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,22px);font-style:italic;
+  color:var(--smoke);margin-bottom:32px;line-height:1.6;
+}
+.masterclass .cta{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--bordeaux);color:var(--cream);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+  padding:16px 32px;border-radius:50px;text-decoration:none;
+  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.masterclass .cta:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.2);}
+
+/* ===== GUIDES ===== */
+.guides{
+  padding:100px 24px;text-align:center;background:var(--champagne);position:relative;
+}
+.guides-inner{max-width:700px;margin:0 auto;}
+.guides h2{
+  font-family:'Playfair Display',serif;font-weight:400;letter-spacing:0.03em;
+  font-size:clamp(32px,6vw,52px);line-height:1.1;color:var(--graphite);margin-bottom:16px;
+}
+.guides p{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,22px);font-style:italic;
+  color:var(--smoke);margin-bottom:32px;line-height:1.6;
+}
+.guides .cta{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--forest);color:var(--cream);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+  padding:16px 32px;border-radius:50px;text-decoration:none;
+  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.guides .cta:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.2);}
+
 /* ===== CONTACT ===== */
 .contact{
   background:linear-gradient(180deg, var(--graphite) 0%, var(--graphite-light) 100%);
@@ -359,12 +406,15 @@ footer .links a:hover{color:var(--gold)}
 
 <nav id="navbar">
   <a href="#" class="brand">Дуброво Дарья</a>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="#about">Мой путь</a>
     <a href="#dc">Dasha Cosmos</a>
+    <a href="#pricing">Тарифы</a>
+    <a href="#masterclass">Мастер-классы</a>
+    <a href="#guides">Гайды</a>
     <a href="#contact">Контакты</a>
   </div>
-  <button class="menu-btn">☰</button>
+  <button class="menu-btn" id="menuBtn">☰</button>
 </nav>
 
 <!-- ===== HERO ===== -->
@@ -455,6 +505,45 @@ footer .links a:hover{color:var(--gold)}
   </div>
 </section>
 
+<!-- ===== PRICING ===== -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <span class="eyebrow reveal">Вокальный интенсив</span>
+    <h2 class="reveal">Выбери свой формат</h2>
+    <p class="subtitle reveal">От ознакомления до глубокой трансформации</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <span class="tag">Light</span>
+        <h3>Light</h3>
+        <span class="price">4 900 ₽</span>
+        <p>Доступ к материалам курса</p>
+        <a href="course.html" class="cta">Подробнее →</a>
+      </div>
+      <div class="pricing-card reveal">
+        <span class="tag">Популярный</span>
+        <h3>Base</h3>
+        <span class="price">11 900 ₽</span>
+        <p>Материалы + обратная связь</p>
+        <a href="course.html" class="cta">Подробнее →</a>
+      </div>
+      <div class="pricing-card reveal">
+        <span class="tag">Deep</span>
+        <h3>Deep</h3>
+        <span class="price">24 900 ₽</span>
+        <p>Глубокая работа с голосом</p>
+        <a href="course.html" class="cta">Подробнее →</a>
+      </div>
+      <div class="pricing-card reveal">
+        <span class="tag">VIP</span>
+        <h3>VIP</h3>
+        <span class="price">39 900 ₽</span>
+        <p>Индивидуальное сопровождение</p>
+        <a href="course.html" class="cta">Подробнее →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== DASHA COSMOS TEASER ===== -->
 <section class="dc-teaser" id="dc">
   <div class="dc-teaser-inner">
@@ -501,6 +590,26 @@ footer .links a:hover{color:var(--gold)}
       <button onclick="moveCarousel(-1)">←</button>
       <button onclick="moveCarousel(1)">→</button>
     </div>
+  </div>
+</section>
+
+<!-- ===== MASTERCLASSES ===== -->
+<section class="masterclass" id="masterclass">
+  <div class="masterclass-inner">
+    <span class="eyebrow reveal">Обучение</span>
+    <h2 class="reveal">Мастер-классы</h2>
+    <p class="reveal">Живые встречи, разбор техник, работа с голосом в реальном времени</p>
+    <a href="masterclass.html" class="reveal cta">Расписание мастер-классов →</a>
+  </div>
+</section>
+
+<!-- ===== GUIDES ===== -->
+<section class="guides" id="guides">
+  <div class="guides-inner">
+    <span class="eyebrow reveal">Бесплатно</span>
+    <h2 class="reveal">Гайды и материалы</h2>
+    <p class="reveal">Рабочая тетрадь, чек-листы, гайды по дыханию и технике. Получите в боте.</p>
+    <a href="https://t.me/+xZ6q6t0A7083Y2Ji" target="_blank" class="reveal cta">Получить в Telegram →</a>
   </div>
 </section>
 
@@ -551,11 +660,40 @@ if(cursor&&window.matchMedia('(pointer:fine)').matches){
   });
 }
 
+// Mobile menu toggle
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+if (menuBtn && navLinks) {
+  menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    menuBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuBtn.textContent = '☰';
+    });
+  });
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
 // Carousel — infinite loop
 let carouselPos = 0;
+let moveCarousel = null;
 const track = document.getElementById('carouselTrack');
 if (track) {
-  // Clone cards for infinite illusion
   const cards = Array.from(track.querySelectorAll('.carousel-card'));
   const cardCount = cards.length;
   if (cardCount > 0) {
@@ -568,9 +706,8 @@ if (track) {
     const cardWidth = cards[0].offsetWidth + gap;
     const totalOriginalWidth = cardCount * cardWidth;
 
-    function moveCarousel(dir) {
+    moveCarousel = function(dir) {
       carouselPos += dir * cardWidth;
-      // Infinite wrap logic
       if (carouselPos < 0) {
         carouselPos = totalOriginalWidth - cardWidth;
       } else if (carouselPos >= totalOriginalWidth) {
@@ -578,11 +715,9 @@ if (track) {
       }
       track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
       track.style.transform = `translateX(-${carouselPos}px)`;
-    }
+    };
 
-    // Auto-scroll every 4 seconds
     let autoScroll = setInterval(() => moveCarousel(1), 4000);
-    // Pause on hover
     track.parentElement.addEventListener('mouseenter', () => clearInterval(autoScroll));
     track.parentElement.addEventListener('mouseleave', () => {
       autoScroll = setInterval(() => moveCarousel(1), 4000);

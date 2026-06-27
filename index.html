@@ -101,8 +101,9 @@ nav .brand:hover{color:var(--champagne)}
 .hero-photo-frame img{width:100%;height:100%;object-fit:cover;object-position:center 15%;}
 .hero-text{flex:1;min-width:280px;max-width:560px;text-align:left;padding-top:2px;}
 .hero-text h1{
-  font-family:'Playfair Display',serif;font-weight:500;letter-spacing:0.03em;
-  font-size:clamp(28px,5vw,44px);line-height:1.08;color:#0F0F0F;margin:0 0 24px 0;
+  font-family:'Playfair Display',serif;font-weight:600;letter-spacing:0.06em;
+  font-size:clamp(32px,5.5vw,48px);line-height:1.05;color:#0F0F0F;margin:0 0 24px 0;
+  text-transform:uppercase;
 }
 .hero-text .subtitle{
   font-size:clamp(18px,2.5vw,22px);font-weight:500;
@@ -124,10 +125,12 @@ nav .brand:hover{color:var(--champagne)}
 .scroll-hint span{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;}
 @keyframes scroll{0%,100%{top:6px;opacity:1}50%{top:14px;opacity:0.3}}
 
-/* Mobile: reduce hero photo size */
+/* Mobile: reduce hero photo size, center CTA */
 @media(max-width:768px){
   .hero-photo-frame{width:260px;height:260px;}
   .hero-content{gap:24px;padding:0 16px;}
+  .hero-text{text-align:center;}
+  .hero-text a.cta{margin:0 auto;}
 }
 @media(max-width:480px){
   .hero-photo-frame{width:220px;height:220px;}
@@ -478,6 +481,21 @@ footer .links a:hover{color:var(--gold)}
         <h3>Поп-Хиты</h3>
         <p>Современная эстрада в авторской интерпретации. Знакомые песни — новое звучание.</p>
       </div>
+      <div class="carousel-card reveal">
+        <span class="tag">Программа</span>
+        <h3>Jazz Noir</h3>
+        <p>Тёмный, интимный джаз. Ночной город, космический голос, импровизация.</p>
+      </div>
+      <div class="carousel-card reveal">
+        <span class="tag">Программа</span>
+        <h3>Indie Folk</h3>
+        <p>Акустика, честность, тишина. История, рассказанная у костра.</p>
+      </div>
+      <div class="carousel-card reveal">
+        <span class="tag">Программа</span>
+        <h3>Ethnic Fusion</h3>
+        <p>Шаманские ритмы, йоик, мантры. Голос как инструмент древний и новый.</p>
+      </div>
     </div>
     <div class="carousel-nav">
       <button onclick="moveCarousel(-1)">←</button>
@@ -488,13 +506,16 @@ footer .links a:hover{color:var(--gold)}
 
 <!-- ===== CONTACT ===== -->
 <section class="contact" id="contact">
-  <h2 class="reveal">остались вопросы?</h2>
+  <h2 class="reveal">Остались вопросы?</h2>
   <div class="contact-buttons reveal">
     <a href="https://vk.ru/d.dubrovo" target="_blank" class="contact-btn">VK</a>
     <a href="https://t.me/+xZ6q6t0A7083Y2Ji" target="_blank" class="contact-btn">Telegram</a>
     <a href="https://instagram.com/dariarijaya" target="_blank" class="contact-btn">Instagram</a>
     <a href="mailto:d.dubrovo@yandex.ru" class="contact-btn">Email</a>
   </div>
+  <p class="reveal bot-note" style="margin-top:24px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--smoke);">
+    Или напишите боту — получите рабочую тетрадь и гайды бесплатно
+  </p>
 </section>
 
 <footer>
@@ -530,19 +551,42 @@ if(cursor&&window.matchMedia('(pointer:fine)').matches){
   });
 }
 
-// Carousel
-let carouselPos=0;
-const track=document.getElementById('carouselTrack');
-if(track){
-  const cards=track.querySelectorAll('.carousel-card');
-  if(cards.length>0){
-    const cardWidth=cards[0].offsetWidth+24;
-    const maxPos=Math.max(0,(cards.length-Math.floor(track.parentElement.offsetWidth/cardWidth))*cardWidth);
-    function moveCarousel(dir){
-      carouselPos+=dir*cardWidth;
-      carouselPos=Math.max(0,Math.min(carouselPos,maxPos));
-      track.style.transform=`translateX(-${carouselPos}px)`;
+// Carousel — infinite loop
+let carouselPos = 0;
+const track = document.getElementById('carouselTrack');
+if (track) {
+  // Clone cards for infinite illusion
+  const cards = Array.from(track.querySelectorAll('.carousel-card'));
+  const cardCount = cards.length;
+  if (cardCount > 0) {
+    cards.forEach(card => {
+      const clone = card.cloneNode(true);
+      clone.classList.remove('reveal');
+      track.appendChild(clone);
+    });
+    const gap = 24;
+    const cardWidth = cards[0].offsetWidth + gap;
+    const totalOriginalWidth = cardCount * cardWidth;
+
+    function moveCarousel(dir) {
+      carouselPos += dir * cardWidth;
+      // Infinite wrap logic
+      if (carouselPos < 0) {
+        carouselPos = totalOriginalWidth - cardWidth;
+      } else if (carouselPos >= totalOriginalWidth) {
+        carouselPos = 0;
+      }
+      track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      track.style.transform = `translateX(-${carouselPos}px)`;
     }
+
+    // Auto-scroll every 4 seconds
+    let autoScroll = setInterval(() => moveCarousel(1), 4000);
+    // Pause on hover
+    track.parentElement.addEventListener('mouseenter', () => clearInterval(autoScroll));
+    track.parentElement.addEventListener('mouseleave', () => {
+      autoScroll = setInterval(() => moveCarousel(1), 4000);
+    });
   }
 }
 </script>
